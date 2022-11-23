@@ -7,8 +7,10 @@ import AllDoctors from "../../Pages/Dashboard/AddDoctor/AllDoctors";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 // import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
+import Payment from "../../Pages/Dashboard/payment/Payment";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
+import ErrorPage from "../../Pages/Shared/ErrorPage/ErrorPage";
 import SignUp from "../../Pages/SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -17,6 +19,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -43,6 +46,7 @@ const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/dashboard",
@@ -71,6 +75,17 @@ const router = createBrowserRouter([
             <AllDoctors />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: (
+          <AdminRoute>
+            <Payment />
+          </AdminRoute>
+        ),
+
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/bookings/${params.id}`),
       },
     ],
   },
